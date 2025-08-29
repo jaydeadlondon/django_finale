@@ -1,0 +1,32 @@
+{% extends 'myauth/base.html' %}
+
+{% block title %}Список пользователей{% endblock %}
+
+{% block content %}
+    <h2>Список пользователей</h2>
+
+    <div class="users-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+        {% for user in users %}
+            <div class="user-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+                {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="{{ user.username }}"
+                         style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px;">
+                {% else %}
+                    <div style="width: 100%; height: 200px; background: #f0f0f0; display: flex;
+                                align-items: center; justify-content: center; border-radius: 5px;">
+                        <span style="color: #999;">Нет аватара</span>
+                    </div>
+                {% endif %}
+
+                <h3 style="margin: 10px 0;">
+                    <a href="{% url 'myauth:user_detail' pk=user.pk %}">{{ user.username }}</a>
+                </h3>
+
+                <p>{{ user.get_full_name|default:user.username }}</p>
+                <p style="font-size: 14px; color: #666;">
+                    Зарегистрирован: {{ user.date_joined|date:"d.m.Y" }}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

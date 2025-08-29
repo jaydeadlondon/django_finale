@@ -1,0 +1,17 @@
+{% extends 'shopapp/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Shop" %}{% endblock %}
+
+{% block content %}
+    <h2>{% trans "Welcome to the shop!" %}</h2>
+
+    <h3>{% trans "Available pages:" %}</h3>
+    <ul>
+        {% for page in pages %}
+            <li>
+                <a href="{% url 'shopapp:'|add:page.url %}">{% trans page.name %}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

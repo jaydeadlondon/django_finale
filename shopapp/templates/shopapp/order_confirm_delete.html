@@ -1,0 +1,27 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}Удалить заказ{% endblock %}
+
+{% block content %}
+    <h2>Удалить заказ</h2>
+
+    <p>Вы уверены, что хотите удалить заказ <strong>#{{ order.pk }}</strong>?</p>
+    <p>Это действие нельзя отменить!</p>
+
+    <div class="order-info" style="background: #f8f9fa; padding: 15px; margin: 20px 0;">
+        <p><strong>Покупатель:</strong> {{ order.user.get_full_name|default:order.user.username }}</p>
+        <p><strong>Дата заказа:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
+        <p><strong>Товары:</strong></p>
+        <ul>
+            {% for product in order.products.all %}
+                <li>{{ product.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, удалить заказ</button>
+        <a href="{% url 'shopapp:order_detail' pk=order.pk %}" class="btn">Отмена</a>
+    </form>
+{% endblock %}

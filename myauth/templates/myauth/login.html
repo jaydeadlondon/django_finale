@@ -1,0 +1,23 @@
+{% extends 'myauth/base.html' %}
+
+{% block title %}Главная - MyAuth{% endblock %}
+
+{% block content %}
+    <h1>Добро пожаловать в MyAuth!</h1>
+
+    {% if user.is_authenticated %}
+        <p>Вы вошли как: <strong>{{ user.username }}</strong></p>
+        <p>Email: {{ user.email|default:"Не указан" }}</p>
+        <p>Дата регистрации: {{ user.date_joined|date:"d.m.Y H:i" }}</p>
+    {% else %}
+        <p>Вы не авторизованы. <a href="{% url 'myauth:login' %}">Войдите</a> для доступа ко всем функциям.</p>
+    {% endif %}
+
+    <h2>Доступные функции:</h2>
+    <ul>
+        <li><a href="{% url 'myauth:cookie_set' %}">Установить данные в Cookies</a></li>
+        <li><a href="{% url 'myauth:cookie_get' %}">Прочитать данные из Cookies</a></li>
+        <li><a href="{% url 'myauth:session_set' %}">Установить данные в Session</a></li>
+        <li><a href="{% url 'myauth:session_get' %}">Прочитать данные из Session</a></li>
+    </ul>
+{% endblock %}

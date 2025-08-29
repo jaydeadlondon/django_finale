@@ -1,0 +1,20 @@
+{% extends 'myauth/base.html' %}
+
+{% block title %}Установка Cookies{% endblock %}
+
+{% block content %}
+    <h2>Cookies установлены!</h2>
+
+    <div class="data-block">
+        <h3>Установленные cookies:</h3>
+        <ul>
+            <li><code>username_cookie</code> = {{ user.username|default:"anonymous" }}</li>
+            <li><code>last_visit</code> = текущее время</li>
+            <li><code>visit_count</code> = увеличен на 1</li>
+        </ul>
+    </div>
+
+    <p>
+        <a href="{% url 'myauth:cookie_get' %}" class="btn">Прочитать cookies</a>
+    </p>
+{% endblock %}

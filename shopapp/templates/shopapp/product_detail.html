@@ -1,0 +1,83 @@
+{% extends 'shopapp/base.html' %}
+{% load i18n %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+    <h2>{{ product.name }}</h2>
+
+    <div class="product-detail">
+        {# Простой перевод одной строки #}
+        <p><strong>{% translate "Description" %}:</strong> {{ product.description }}</p>
+        <p><strong>{% translate "Price" %}:</strong> {{ product.price }} ₽</p>
+
+        {% if product.discount %}
+            <p><strong>{% translate "Discount" %}:</strong> {{ product.discount }}%</p>
+        {% endif %}
+
+        <p><strong>{% translate "Date created" %}:</strong> {{ product.created_at|date:"d.m.Y H:i" }}</p>
+        <p><strong>{% translate "Created by" %}:</strong> {{ product.created_by.username|default:"-" }}</p>
+
+        {# Перевод с переменной #}
+        <p><strong>{% translate "Status" %}:</strong>
+            {% if product.archived %}
+                <span style="color: red;">{% translate "Archived" %}</span>
+            {% else %}
+                <span style="color: green;">{% translate "Active" %}</span>
+            {% endif %}
+        </p>
+
+        {# Блочный перевод для многострочного текста #}
+        {% blocktranslate %}
+        This product is available in our online store.
+        You can order it right now with fast delivery.
+        {% endblocktranslate %}
+
+        {# Плюрализация - количество изображений #}
+        <div class="product-images">
+            <h3>{% translate "Product images" %}</h3>
+            {% with images_count=product.images.count %}
+                {% blocktranslate count counter=images_count %}
+                    This product has {{ counter }} image.
+                {% plural %}
+                    This product has {{ counter }} images.
+                {% endblocktranslate %}
+            {% endwith %}
+
+            {% if product.images.exists %}
+                <div class="images-grid">
+                    {% for image in product.images.all %}
+                        <img src="{{ image.image.url }}" alt="{{ image.description }}"
+                             style="max-width: 200px; margin: 10px;">
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>{% translate "No images available" %}</p>
+            {% endif %}
+        </div>
+
+        {# Блочный перевод с переменными #}
+        {% blocktranslate with name=product.name price=product.price %}
+        The product "{{ name }}" costs {{ price }} rubles.
+        Special offer for our customers!
+        {% endblocktranslate %}
+    </div>
+
+    <div class="actions" style="margin-top: 30px;">
+        <a href="{% url 'shopapp:products_list' %}" class="btn">
+            ← {% translate "Back to products list" %}
+        </a>
+
+        {% if user.is_superuser or user == product.created_by and perms.shopapp.change_product %}
+            <a href="{% url 'shopapp:product_update' pk=product.pk %}" class="btn btn-primary">
+                {% translate "Edit" %}
+            </a>
+        {% endif %}
+
+        {% if not product.archived %}
+            <a href="{% url 'shopapp:product_archive' pk=product.pk %}" class="btn btn-danger">
+                {% translate "Archive" %}
+            </a>
+        {% endif %}
+    </div>
+{% endblock %}

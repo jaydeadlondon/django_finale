@@ -1,0 +1,61 @@
+{% extends 'myauth/base.html' %}
+
+{% block title %}Редактирование профиля - {{ object.user.username }}{% endblock %}
+
+{% block content %}
+    <h2>Редактирование профиля пользователя {{ object.user.username }}</h2>
+
+    <div class="data-block">
+        <h3>Текущий аватар</h3>
+        {% if object.avatar %}
+            <img src="{{ object.avatar.url }}" alt="Текущий аватар"
+                 style="max-width: 200px; max-height: 200px; border-radius: 10px; margin-bottom: 20px;">
+        {% else %}
+            <p>Аватар не установлен</p>
+        {% endif %}
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ form.avatar.label_tag }}
+            {{ form.avatar }}
+            {% if form.avatar.help_text %}
+                <small class="help-text">{{ form.avatar.help_text }}</small>
+            {% endif %}
+            {% if form.avatar.errors %}
+                <div class="error">{{ form.avatar.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.bio.label_tag }}
+            {{ form.bio }}
+            {% if form.bio.errors %}
+                <div class="error">{{ form.bio.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.birth_date.label_tag }}
+            {{ form.birth_date }}
+            {% if form.birth_date.errors %}
+                <div class="error">{{ form.birth_date.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.phone.label_tag }}
+            {{ form.phone }}
+            {% if form.phone.errors %}
+                <div class="error">{{ form.phone.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="actions">
+            <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            <a href="{% url 'myauth:user_detail' pk=object.user.pk %}" class="btn">Отмена</a>
+        </div>
+    </form>
+{% endblock %}

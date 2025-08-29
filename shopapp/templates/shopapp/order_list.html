@@ -1,0 +1,37 @@
+{% extends 'shopapp/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Order list" %}{% endblock %}
+
+{% block content %}
+    <h2>{% trans "Order list" %}</h2>
+
+    <div style="margin-bottom: 20px;">
+        <a href="{% url 'shopapp:order_create' %}" class="btn btn-primary">+ {% trans "Create order" %}</a>
+    </div>
+
+    {% if orders %}
+        {% for order in orders %}
+            <div class="order-card" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px;">
+                <h3>
+                    <a href="{% url 'shopapp:order_detail' pk=order.pk %}">
+                        {% blocktrans with order_id=order.pk %}Order #{{ order_id }}{% endblocktrans %}
+                    </a>
+                </h3>
+                <p><strong>{% trans "Customer" %}:</strong> {{ order.user.get_full_name|default:order.user.username }}</p>
+                <p><strong>{% trans "Date" %}:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
+                <p><strong>{% trans "Products" %}:</strong></p>
+                <ul>
+                    {% for product in order.products.all %}
+                        <li>{{ product.name }} - {{ product.price }} ₽</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>{% trans "No orders yet." %}</p>
+    {% endif %}
+
+    <hr>
+    <a href="{% url 'shopapp:index' %}">← {% trans "Back to home" %}</a>
+{% endblock %}

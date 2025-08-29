@@ -1,0 +1,56 @@
+{% extends 'myauth/base.html' %}
+
+{% block title %}Профиль - {{ profile_user.username }}{% endblock %}
+
+{% block content %}
+    <h2>Профиль пользователя {{ profile_user.username }}</h2>
+
+    <div class="data-block">
+        <h3>Аватар</h3>
+        {% if profile_user.profile.avatar %}
+            <img src="{{ profile_user.profile.avatar.url }}" alt="Аватар"
+                 style="max-width: 300px; max-height: 300px; border-radius: 10px;">
+        {% else %}
+            <p>Аватар не установлен</p>
+        {% endif %}
+    </div>
+
+    <div class="data-block">
+        <h3>Основная информация</h3>
+        <p><strong>Имя пользователя:</strong> {{ profile_user.username }}</p>
+        <p><strong>Полное имя:</strong> {{ profile_user.get_full_name|default:"Не указано" }}</p>
+        <p><strong>Email:</strong>
+            {% if user.is_staff or user == profile_user %}
+                {{ profile_user.email }}
+            {% else %}
+                <em>Скрыто</em>
+            {% endif %}
+        </p>
+        <p><strong>Дата регистрации:</strong> {{ profile_user.date_joined|date:"d.m.Y" }}</p>
+    </div>
+
+    <div class="data-block">
+        <h3>Дополнительная информация</h3>
+        <p><strong>О себе:</strong> {{ profile_user.profile.bio|default:"Не указано" }}</p>
+        <p><strong>Дата рождения:</strong> {{ profile_user.profile.birth_date|date:"d.m.Y"|default:"Не указано" }}</p>
+        <p><strong>Телефон:</strong>
+            {% if user.is_staff or user == profile_user %}
+                {{ profile_user.profile.phone|default:"Не указано" }}
+            {% else %}
+                <em>Скрыто</em>
+            {% endif %}
+        </p>
+    </div>
+
+    {% if can_edit %}
+        <div class="actions">
+            <a href="{% url 'myauth:profile_update' pk=profile_user.pk %}" class="btn btn-primary">
+                Редактировать профиль
+            </a>
+        </div>
+    {% endif %}
+
+    <div class="actions" style="margin-top: 20px;">
+        <a href="{% url 'myauth:user_list' %}" class="btn">← К списку пользователей</a>
+    </div>
+{% endblock %}

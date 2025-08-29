@@ -1,0 +1,25 @@
+{% extends 'myauth/base.html' %}
+
+{% block title %}Чтение Cookies{% endblock %}
+
+{% block content %}
+    <h2>Данные из Cookies</h2>
+
+    <div class="data-block">
+        <h3>Прочитанные значения:</h3>
+        <ul>
+            <li><strong>Имя пользователя из cookie:</strong> {{ username_cookie }}</li>
+            <li><strong>Последний визит:</strong> {{ last_visit }}</li>
+            <li><strong>Количество посещений:</strong> {{ visit_count }}</li>
+        </ul>
+    </div>
+
+    <div class="data-block">
+        <h3>Все cookies:</h3>
+        <pre>{{ all_cookies|pprint }}</pre>
+    </div>
+
+    <p>
+        <a href="{% url 'myauth:cookie_set' %}" class="btn">Установить новые cookies</a>
+    </p>
+{% endblock %}

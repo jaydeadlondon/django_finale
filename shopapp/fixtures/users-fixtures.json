@@ -1,0 +1,30 @@
+[
+  {
+    "model": "auth.user",
+    "pk": 100,
+    "fields": {
+      "username": "fixture_user1",
+      "email": "fixture1@test.com",
+      "password": "pbkdf2_sha256$260000$test$test",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "first_name": "Test",
+      "last_name": "User"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 101,
+    "fields": {
+      "username": "fixture_user2",
+      "email": "fixture2@test.com",
+      "password": "pbkdf2_sha256$260000$test$test",
+      "is_staff": false,
+      "is_active": true,
+      "is_superuser": false,
+      "first_name": "Another",
+      "last_name": "User"
+    }
+  }
+]

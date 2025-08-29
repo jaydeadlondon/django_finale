@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список статей</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .article {
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .article-title {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .article-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .tags {
+            margin-top: 10px;
+        }
+        .tag {
+            background-color: #e7f3ff;
+            color: #0066cc;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Список статей</h1>
+
+    {% if articles %}
+        {% for article in articles %}
+            <div class="article">
+                <h2 class="article-title">{{ article.title }}</h2>
+
+                <div class="article-meta">
+                    <strong>Дата публикации:</strong> {{ article.pub_date|date:"d.m.Y H:i" }}<br>
+                    <strong>Автор:</strong> {{ article.author.name }}<br>
+                    <strong>Категория:</strong> {{ article.category.name }}
+                </div>
+
+                <div class="tags">
+                    <strong>Теги:</strong>
+                    {% if article.tags.all %}
+                        {% for tag in article.tags.all %}
+                            <span class="tag">{{ tag.name }}</span>
+                        {% endfor %}
+                    {% else %}
+                        <span>Нет тегов</span>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Статей пока нет.</p>
+    {% endif %}
+</body>
+</html>

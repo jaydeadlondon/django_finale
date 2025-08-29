@@ -1,0 +1,44 @@
+{% extends 'myauth/base.html' %}
+
+{% block title %}Чтение данных из сессии{% endblock %}
+
+{% block content %}
+    <h2>Данные из сессии</h2>
+
+    <div class="data-block">
+        <h3>Основные данные:</h3>
+        <ul>
+            <li><strong>Имя пользователя:</strong> {{ username_session }}</li>
+            <li><strong>Последняя активность:</strong> {{ last_activity }}</li>
+            <li><strong>Просмотров страниц:</strong> {{ page_views }}</li>
+        </ul>
+    </div>
+
+    <div class="data-block">
+        <h3>Настройки пользователя:</h3>
+        <ul>
+            {% for key, value in user_preferences.items %}
+                <li><strong>{{ key }}:</strong> {{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="data-block">
+        <h3>Информация о сессии:</h3>
+        <ul>
+            <li><strong>Session Key:</strong> {{ session_info.session_key|default:"Не установлен" }}</li>
+            <li><strong>Пустая:</strong> {{ session_info.is_empty|yesno:"Да,Нет" }}</li>
+            <li><strong>Истекает через:</strong> {{ session_info.expiry_age }} секунд</li>
+            <li><strong>Дата истечения:</strong> {{ session_info.expiry_date|date:"d.m.Y H:i:s" }}</li>
+        </ul>
+    </div>
+
+    <div class="data-block">
+        <h3>Все данные сессии:</h3>
+        <pre>{{ all_session_data|pprint }}</pre>
+    </div>
+
+    <p>
+        <a href="{% url 'myauth:session_set' %}" class="btn">Обновить данные в сессии</a>
+    </p>
+{% endblock %}

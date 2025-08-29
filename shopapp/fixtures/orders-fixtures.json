@@ -1,0 +1,43 @@
+[
+  {
+    "model": "shopapp.order",
+    "pk": 100,
+    "fields": {
+      "delivery_address": "Fixture Address 1, Moscow",
+      "promocode": "FIXTURE10",
+      "created_at": "2024-01-02T10:00:00Z",
+      "user": 100,
+      "products": [
+        100,
+        101
+      ]
+    }
+  },
+  {
+    "model": "shopapp.order",
+    "pk": 101,
+    "fields": {
+      "delivery_address": "Fixture Address 2, St. Petersburg",
+      "promocode": "FIXTURE20",
+      "created_at": "2024-01-02T11:00:00Z",
+      "user": 101,
+      "products": [
+        101,
+        102
+      ]
+    }
+  },
+  {
+    "model": "shopapp.order",
+    "pk": 102,
+    "fields": {
+      "delivery_address": "Fixture Address 3, Kazan",
+      "promocode": "",
+      "created_at": "2024-01-02T12:00:00Z",
+      "user": 100,
+      "products": [
+        102
+      ]
+    }
+  }
+]

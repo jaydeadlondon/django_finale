@@ -1,0 +1,163 @@
+# SOME DESCRIPTIVE TITLE.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-01 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# Base template
+msgid "Shop"
+msgstr "Магазин"
+
+msgid "Online Shop"
+msgstr "Интернет-магазин"
+
+msgid "Home"
+msgstr "Главная"
+
+msgid "Products"
+msgstr "Товары"
+
+msgid "Orders"
+msgstr "Заказы"
+
+msgid "Profile"
+msgstr "Профиль"
+
+msgid "Admin"
+msgstr "Админка"
+
+msgid "My Shop. All rights reserved."
+msgstr "Мой магазин. Все права защищены."
+
+# Shop index
+msgid "Welcome to the shop!"
+msgstr "Добро пожаловать в магазин!"
+
+msgid "Available pages:"
+msgstr "Доступные страницы:"
+
+msgid "Product list"
+msgstr "Список товаров"
+
+msgid "Order list"
+msgstr "Список заказов"
+
+# Product list
+msgid "Add product"
+msgstr "Добавить товар"
+
+msgid "Price"
+msgstr "Цена"
+
+msgid "Discount"
+msgstr "Скидка"
+
+msgid "Created by"
+msgstr "Создал"
+
+msgid "No products yet."
+msgstr "Товаров пока нет."
+
+msgid "Back to home"
+msgstr "Вернуться на главную"
+
+# Order list
+msgid "Create order"
+msgstr "Создать заказ"
+
+msgid "Order #%(order_id)s"
+msgstr "Заказ №%(order_id)s"
+
+msgid "Customer"
+msgstr "Покупатель"
+
+msgid "Date"
+msgstr "Дата"
+
+msgid "No orders yet."
+msgstr "Заказов пока нет."
+
+# Product detail translations
+msgid "Name"
+msgstr "Название"
+
+msgid "Description"
+msgstr "Описание"
+
+msgid "Created at"
+msgstr "Дата создания"
+
+msgid "Archived"
+msgstr "Архивировано"
+
+msgid "Product"
+msgstr "Продукт"
+
+msgid "Order"
+msgstr "Заказ"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Active"
+msgstr "Активен"
+
+msgid "This product is available in our online store.\nYou can order it right now with fast delivery."
+msgstr "Этот товар доступен в нашем интернет-магазине.\nВы можете заказать его прямо сейчас с быстрой доставкой."
+
+#, python-format
+msgid "This product has %(counter)s image."
+msgid_plural "This product has %(counter)s images."
+msgstr[0] "У этого продукта %(counter)s изображение."
+msgstr[1] "У этого продукта %(counter)s изображения."
+msgstr[2] "У этого продукта %(counter)s изображений."
+
+msgid "Product images"
+msgstr "Изображения продукта"
+
+msgid "No images available"
+msgstr "Нет доступных изображений"
+
+#, python-format
+msgid "The product \"%(name)s\" costs %(price)s rubles.\nSpecial offer for our customers!"
+msgstr "Товар \"%(name)s\" стоит %(price)s рублей.\nСпециальное предложение для наших клиентов!"
+
+msgid "Back to products list"
+msgstr "Вернуться к списку продуктов"
+
+msgid "Edit"
+msgstr "Редактировать"
+
+msgid "Archive"
+msgstr "Архивировать"
+
+msgid "Unknown"
+msgstr "Неизвестно"
+
+# Model verbose names for admin
+msgid "Delivery address"
+msgstr "Адрес доставки"
+
+msgid "Promo code"
+msgstr "Промокод"
+
+msgid "User"
+msgstr "Пользователь"
+
+msgid "Product image"
+msgstr "Изображение продукта"
+
+msgid "Image"
+msgstr "Изображение"
+
+msgid "Can create product"
+msgstr "Может создавать продукт"

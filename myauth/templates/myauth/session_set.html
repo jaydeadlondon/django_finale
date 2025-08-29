@@ -1,0 +1,34 @@
+{% extends 'myauth/base.html' %}
+
+{% block title %}Установка данных в сессию{% endblock %}
+
+{% block content %}
+    <h2>Данные сохранены в сессию!</h2>
+
+    <div class="data-block">
+        <h3>Сохранённые данные:</h3>
+        <ul>
+            <li><strong>Имя пользователя:</strong> {{ user.username|default:"guest" }}</li>
+            <li><strong>Последняя активность:</strong> текущее время</li>
+            <li><strong>Счётчик просмотров:</strong> увеличен на 1</li>
+            <li><strong>Настройки пользователя:</strong> theme=dark, language=ru, notifications=True</li>
+        </ul>
+    </div>
+
+    <div class="data-block">
+        <h3>Информация о сессии:</h3>
+        <ul>
+            <li><strong>Session Key:</strong> {{ session_key }}</li>
+            <li><strong>Время жизни:</strong> 1 час</li>
+        </ul>
+    </div>
+
+    <div class="data-block">
+        <h3>Все данные сессии:</h3>
+        <pre>{{ session_data|pprint }}</pre>
+    </div>
+
+    <p>
+        <a href="{% url 'myauth:session_get' %}" class="btn">Прочитать данные из сессии</a>
+    </p>
+{% endblock %}

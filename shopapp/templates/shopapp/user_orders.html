@@ -1,0 +1,316 @@
+{% extends "shopapp/base.html" %}
+{% load cache %}
+{% load i18n %}
+
+{% block title %}{% blocktrans with username=owner.username %}Orders of {{ username }}{% endblocktrans %}{% endblock %}
+
+{% block header %}{% blocktrans with username=owner.username %}Orders of {{ username }}{% endblocktrans %}{% endblock %}
+
+{% block content %}
+<div class="user-orders-page">
+    <div class="user-info">
+        <div class="user-card">
+            <h2>{% trans "User Information" %}</h2>
+            <div class="user-details">
+                <p><strong>{% trans "Username" %}:</strong> {{ owner.username }}</p>
+                {% if owner.first_name or owner.last_name %}
+                    <p><strong>{% trans "Full name" %}:</strong> {{ owner.first_name }} {{ owner.last_name }}</p>
+                {% endif %}
+                {% if owner.email %}
+                    <p><strong>{% trans "Email" %}:</strong> {{ owner.email }}</p>
+                {% endif %}
+                <p><strong>{% trans "Registration date" %}:</strong> {{ owner.date_joined|date:"d.m.Y H:i" }}</p>
+                <p><strong>{% trans "Total orders" %}:</strong> {{ orders|length }}</p>
+            </div>
+            <div class="user-actions">
+                <a href="{% url 'shopapp:user_orders_export' owner.pk %}" class="btn btn-primary">
+                    {% trans "Export orders to JSON" %}
+                </a>
+                <a href="{% url 'shopapp:orders_list' %}" class="btn">
+                    {% trans "All orders" %}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% cache 300 user_orders owner.pk %}
+    <div class="orders-section">
+        {% if orders %}
+            <h3>
+                {% blocktrans with username=owner.username %}
+                User {{ username }} has made the following orders:
+                {% endblocktrans %}
+            </h3>
+
+            <div class="orders-grid">
+                {% for order in orders %}
+                    <div class="order-card">
+                        <div class="order-header">
+                            <h4>{% trans "Order" %} #{{ order.pk }}</h4>
+                            <span class="order-date">{{ order.created_at|date:"d.m.Y H:i" }}</span>
+                        </div>
+
+                        <div class="order-body">
+                            <p><strong>{% trans "Delivery address" %}:</strong></p>
+                            <p class="address">{{ order.delivery_address }}</p>
+
+                            {% if order.promocode %}
+                                <p><strong>{% trans "Promo code" %}:</strong>
+                                   <span class="promocode">{{ order.promocode }}</span></p>
+                            {% endif %}
+
+                            <div class="products-section">
+                                <h5>{% trans "Products in order" %}:</h5>
+                                {% if order.products.all %}
+                                    <ul class="products-list">
+                                        {% for product in order.products.all %}
+                                            <li class="product-item">
+                                                <span class="product-name">{{ product.name }}</span>
+                                                <span class="product-price">{{ product.price }}₽</span>
+                                                {% if product.discount %}
+                                                    <span class="product-discount">(-{{ product.discount }}%)</span>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {% comment "Подсчет общей стоимости" %}
+                                    {% with total=0 %}
+                                        {% for product in order.products.all %}
+                                            {% with discounted_price=product.price|floatformat:2 %}
+                                                {% comment "Здесь можно добавить расчет скидки" %}
+                                            {% endwith %}
+                                        {% endfor %}
+                                    {% endwith %}
+                                    {% endcomment %}
+                                {% else %}
+                                    <p class="no-products">{% trans "No products specified" %}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="order-footer">
+                            <a href="{% url 'shopapp:order_detail' order.pk %}" class="btn btn-primary">
+                                {% trans "View details" %}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-orders">
+                <h3>
+                    {% blocktrans with username=owner.username %}
+                    User {{ username }} has no orders yet
+                    {% endblocktrans %}
+                </h3>
+                <p>{% trans "Orders will appear here after they are created." %}</p>
+                <a href="{% url 'shopapp:order_create' %}" class="btn btn-primary">
+                    {% trans "Create first order" %}
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    {% endcache %}
+
+    {% if debug %}
+    <div class="cache-info">
+        <small>
+            {% trans "Cache info" %}:
+            {% trans "Orders list cached for 5 minutes" %}
+            ({% trans "key" %}: user_orders_{{ owner.pk }})
+        </small>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.user-orders-page {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.user-info {
+    margin-bottom: 30px;
+}
+
+.user-card {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.user-details {
+    margin: 15px 0;
+}
+
+.user-details p {
+    margin: 8px 0;
+}
+
+.user-actions {
+    margin-top: 15px;
+}
+
+.orders-section h3 {
+    color: #495057;
+    margin-bottom: 20px;
+}
+
+.orders-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.order-card {
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s;
+}
+
+.order-card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.order-header {
+    background: #e9ecef;
+    padding: 15px;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-header h4 {
+    margin: 0;
+    color: #495057;
+}
+
+.order-date {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.order-body {
+    padding: 15px;
+}
+
+.address {
+    background: #f8f9fa;
+    padding: 8px;
+    border-radius: 4px;
+    margin: 5px 0 15px 0;
+    font-style: italic;
+}
+
+.promocode {
+    background: #d4edda;
+    color: #155724;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.products-section {
+    margin-top: 15px;
+}
+
+.products-section h5 {
+    margin: 10px 0;
+    color: #495057;
+}
+
+.products-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #f1f3f4;
+    background: #f8f9fa;
+    margin-bottom: 2px;
+    border-radius: 4px;
+}
+
+.product-name {
+    flex-grow: 1;
+    font-weight: 500;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #28a745;
+    margin-left: 10px;
+}
+
+.product-discount {
+    color: #dc3545;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.no-products {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
+
+.order-footer {
+    padding: 15px;
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+    text-align: right;
+}
+
+.no-orders {
+    text-align: center;
+    padding: 40px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 2px dashed #dee2e6;
+}
+
+.no-orders h3 {
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+.cache-info {
+    margin-top: 20px;
+    padding: 10px;
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    color: #856404;
+}
+
+@media (max-width: 768px) {
+    .orders-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .product-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+</style>
+{% endblock %}

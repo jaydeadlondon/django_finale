@@ -1,0 +1,39 @@
+{% extends 'shopapp/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Product list" %}{% endblock %}
+
+{% block content %}
+    <h2>{% trans "Product list" %}</h2>
+
+    {% if perms.shopapp.add_product %}
+        <div style="margin-bottom: 20px;">
+            <a href="{% url 'shopapp:product_create' %}" class="btn btn-primary">+ {% trans "Add product" %}</a>
+        </div>
+    {% endif %}
+
+    {% if products %}
+        <div class="products-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    <h3>
+                        <a href="{% url 'shopapp:product_detail' pk=product.pk %}">
+                            {{ product.name }}
+                        </a>
+                    </h3>
+                    <p>{{ product.description|truncatewords:20 }}</p>
+                    <p><strong>{% trans "Price" %}:</strong> {{ product.price }} ₽</p>
+                    {% if product.discount %}
+                        <p><strong>{% trans "Discount" %}:</strong> {{ product.discount }}%</p>
+                    {% endif %}
+                    <p><small>{% trans "Created by" %}: {{ product.created_by.username|default:"Unknown" }}</small></p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>{% trans "No products yet." %}</p>
+    {% endif %}
+
+    <hr>
+    <a href="{% url 'shopapp:index' %}">← {% trans "Back to home" %}</a>
+{% endblock %}

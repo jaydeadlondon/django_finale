@@ -1,0 +1,27 @@
+{% extends 'shopapp/base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}Редактирование продукта{% else %}Создание продукта{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h2>
+        {% if form.instance.pk %}
+            Редактирование продукта
+        {% else %}
+            Создание нового продукта
+        {% endif %}
+    </h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <div style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">
+                {% if form.instance.pk %}Сохранить изменения{% else %}Создать продукт{% endif %}
+            </button>
+            <a href="{% url 'shopapp:products_list' %}" class="btn">Отмена</a>
+        </div>
+    </form>
+{% endblock %}
