@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-xgjk#p-)%wi2ovv^n=9x+7(^ml)&*(pkvyp&-ymow624at#b+e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['5.129.192.173', 'localhost', '127.0.0.1']
 
 # Downloaded files directory
 MEDIA_URL = '/media/'
