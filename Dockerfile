@@ -1,12 +1,18 @@
 FROM python:3.11-slim
 
+RUN pip install poetry
+
+ENV POETRY_VIRTUALENVS_CREATE=false
+
 WORKDIR /app
 
-COPY requirements.txt .
+COPY pyproject.toml poetry.lock* ./
 
-RUN pip install -r requirements.txt
+RUN poetry install --no-dev
 
 COPY . .
+
+RUN mkdir -p media staticfiles
 
 EXPOSE 8000
 
