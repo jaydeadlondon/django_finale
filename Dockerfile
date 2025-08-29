@@ -7,7 +7,7 @@ ENV POETRY_VIRTUALENVS_CREATE=false
 
 WORKDIR /app
 COPY pyproject.toml ./
-RUN poetry install --no-dev --no-root
+RUN poetry install
 
 COPY . .
 RUN mkdir -p logs media staticfiles
